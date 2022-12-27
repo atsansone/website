@@ -1,6 +1,6 @@
 {
   "projects": {
-    "default": "flutter-docs-prod",
+    "default": "docs-flutter-dev",
     "devtools-staging": "flutter-website-dt-staging",
     "flutter-dev": "flutter-dev-230821",
     "staging-1": "flutter-io-staging-1",
@@ -8,6 +8,8 @@
     "sz": "sz-flutter",
     "sz2": "sz-flutter-2",
     "ft": "flutter-web-staging",
-    "bt": "flt-test"
-  }
+    "bt": "flt-test",
+    "tony-stage": "tony-flutter-site"
+  },
+  "targets": {}
 }
