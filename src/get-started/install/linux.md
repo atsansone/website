@@ -27,8 +27,9 @@ your Linux development environment needs to meet these minimum requirements:
   - `which`
   - `xz-utils`
   - `zip`
-- **Shared libraries**: To utilize the Flutter `test` command,
-  your environment needs the library `libGLU.so.1`.
+- **Shared libraries**:
+  To use the Flutter `test` command,
+  install the `libGLU.so.1` library.
   The `mesa` packages provide this library:
   `libglu1-mesa` on Ubuntu/Debian and `mesa-libGLU` on Fedora.
 

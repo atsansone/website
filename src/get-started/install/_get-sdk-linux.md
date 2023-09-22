@@ -8,26 +8,35 @@ After installation, verify your environment setup.
 ### Method 1: Install Flutter using snapd
 
 This offers the most direct method to install Flutter on Linux.
-To learn about using snapd, check [Installing snapd][].
 
-After you install `snapd`, install Flutter from the Snap Store or
-use the following command:
+1. Install `snapd` if you don't have it installed.
+   To learn about using snapd, check [Installing snapd][].
 
-```terminal
-$ sudo snap install flutter --classic
-```
+1. Install Flutter from the Snap Store or use the following command:
+
+   ```terminal
+   $ sudo snap install flutter --classic
+   ```
+
+1. After you install the snap,
+   check your Flutter SDK path with the following command:
+
+   ```terminal
+   $ flutter doctor -v | grep "Flutter version"
+   ```
+ 
+   The output should resemble the following:
+ 
+   ```terminal
+   • Flutter version 3.13.4 on channel stable at <your-path>/flutter
+   ```
 
 {{site.alert.note}}
-  After you install `snapd`,
-  display your Flutter SDK path with the following command:
-
-  ```terminal
-  $ flutter sdk-path
-  ```
-
+  Only use `snapd` to install Flutter.
+  To upgrade Flutter, run `flutter upgrade`.
 {{site.alert.end}}
 
-### Method 2: Manual Installation
+### Method 2: Install from archive file
 
 If you don't have or can't use `snapd`, follow these steps to install Flutter.
 
