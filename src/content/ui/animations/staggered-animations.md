@@ -72,7 +72,7 @@ You might notice the following characteristics:
 
 ### Watch the video
 
-To watch this example in action, watch the following video.
+To experience this example in action, watch the following video.
 
 <iframe width="560" height="315" src="{{site.yt.embed}}/0fFvnZemmh8" title="Watch this example of a staggered animation in Flutter" {{site.yt.set-short}}></iframe>
 
