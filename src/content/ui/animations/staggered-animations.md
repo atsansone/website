@@ -5,21 +5,21 @@ short-title: Staggered
 ---
 
 :::secondary What you'll learn
-* A staggered animation consists of sequential or overlapping
-    animations.
+* A staggered animation consists of sequential or overlapping animations.
 * To create a staggered animation, use multiple `Animation` objects.
 * One `AnimationController` controls all of the `Animation` objects.
 * Each `Animation` object specifies the animation during an `Interval`.
 * For each property being animated, create a `Tween`.
 :::
 
-:::tip Terminology
-If the concept of tweens or tweening is new to you, see the
-[Animations in Flutter tutorial][].
-:::
+:::tip Prerequisites
+If you don't know about the concept of tweens or tweening,
+consult the [Animations in Flutter tutorial][].
+The term comes from traditional animation,
+where the animator inserts frames "in between" major visual changes
+held in keyframes.
 
-:::secondary New to Flutter?
-This page assumes you know how to create a layout using Flutter's widgets.
+This guide assumes you know how to create a layout using Flutter's widgets.
 To learn more, consult [Building Layouts in Flutter][].
 :::
 
@@ -33,16 +33,15 @@ have gaps, where no changes occur.
 
 ### Characteristics
 
-* The same [`AnimationController`][] drives all of the animations.
+* One [`AnimationController`][] manages all of the animations.
 * Regardless of how long the animation lasts in real time,
-    the controller's values must be between 0.0 and 1.0, inclusive.
-* Each animation has an [`Interval`][]
-    between 0.0 and 1.0, inclusive.
-* For each property that animates in an interval, create a
-    [`Tween`][]. The `Tween` specifies the start and end
-    values for that property.
-* The `Tween` produces an [`Animation`][]
-    object that is managed by the controller.
+  the controller's values must be between 0.0 and 1.0, inclusive.
+* Each animation has an [`Interval`][] between 0.0 and 1.0, inclusive.
+* For each property that animates in an interval,
+  create a [`Tween`][] object.
+  The `Tween` specifies the start and end values for that property.
+* The `Tween` produces an [`Animation`][] object that
+  the `AnimationController` manages.
 
 {% comment %}
 The app animates a `Container` whose
@@ -110,12 +109,12 @@ To set up the animation:
 When the controlling animation's value changes,
 the new animation's value changes, triggering the UI to update.
 
-### Tween a widget's width
+### Display the changes to a widget's width
 
 The following code creates a tween for the `width` property.
 It builds a [`CurvedAnimation`][], specifying an eased curve.
 
-```dart title="Tweening the widget's width (main.dart)"
+```dart title="main.dart" highlightLines=10
 width = Tween<double>(
   begin: 50.0,
   end: 150.0,
@@ -135,13 +134,13 @@ The `begin` and `end` values don't have to be doubles.
 
 To review other available pre-defined animation curves, consult [`Curves`][].
 
-### Tween a widget's border radius
+### Display the changes to a widget's border radius
 
 The following code builds the tween for the `borderRadius` property
 (which controls the roundness of the square's corners),
 using `BorderRadius.circular()`.
 
-```dart title="Tweening the widget's corners (main.dart)"
+```dart title="main.dart" highlightLines=2-3
 borderRadius = BorderRadiusTween(
   begin: BorderRadius.circular(4),
   end: BorderRadius.circular(75),
@@ -188,8 +187,8 @@ marking the widget tree dirty as values change.
 For each tick of the animation, the values are updated,
 resulting in a call to `_buildAnimation()`.
 
-```dart title="StatelessWidget (main.dart)"
-[!class StaggerAnimation extends StatelessWidget!] {
+```dart title="main.dart" highlightLines=1,9,26-32,37,60-62
+class StaggerAnimation extends StatelessWidget {
   StaggerAnimation({super.key, required this.controller}) :
 
     // Each animation defined here transforms its value during the subset
@@ -197,7 +196,7 @@ resulting in a call to `_buildAnimation()`.
     // For example the opacity animation transforms its value during
     // the first 10% of the controller's duration.
 
-    [!opacity = Tween<double>!](
+    opacity = Tween<double>(
       begin: 0.0,
       end: 1.0,
     ).animate(
@@ -214,18 +213,18 @@ resulting in a call to `_buildAnimation()`.
     // ... Other tween definitions ...
     );
 
-  [!final AnimationController controller;!]
-  [!final Animation<double> opacity;!]
-  [!final Animation<double> width;!]
-  [!final Animation<double> height;!]
-  [!final Animation<EdgeInsets> padding;!]
-  [!final Animation<BorderRadius?> borderRadius;!]
-  [!final Animation<Color?> color;!]
+  final AnimationController controller;
+  final Animation<double> opacity;
+  final Animation<double> width;
+  final Animation<double> height;
+  final Animation<EdgeInsets> padding;
+  final Animation<BorderRadius?> borderRadius;
+  final Animation<Color?> color;
 
   // This function is called each time the controller "ticks" a new frame.
   // When it runs, all of the animation's values will have been
   // updated to reflect the controller's current value.
-  [!Widget _buildAnimation(BuildContext context, Widget? child)!] {
+  Widget _buildAnimation(BuildContext context, Widget? child) {
     return Container(
       padding: padding.value,
       alignment: Alignment.bottomCenter,
@@ -248,9 +247,9 @@ resulting in a call to `_buildAnimation()`.
   }
 
   @override
-  [!Widget build(BuildContext context)!] {
-    return [!AnimatedBuilder!](
-      [!builder: _buildAnimation!],
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      builder: _buildAnimation,
       animation: controller,
     );
   }
@@ -265,8 +264,8 @@ It plays the animation and builds the non-animating portion of the widget tree.
 The animation begins when a tap is detected in the screen.
 The animation runs forward, then backward.
 
-```dart title="StatefulWidget (main.dart)"
-[!class StaggerDemo extends StatefulWidget!] {
+```dart title="main.dart" highlightLines=1,22,24-25,32
+class StaggerDemo extends StatefulWidget {
   @override
   State<StaggerDemo> createState() => _StaggerDemoState();
 }
@@ -287,17 +286,17 @@ class _StaggerDemoState extends State<StaggerDemo>
 
   // ...Boilerplate...
 
-  [!Future<void> _playAnimation() async!] {
+  Future<void> _playAnimation() async {
     try {
-      [!await _controller.forward().orCancel;!]
-      [!await _controller.reverse().orCancel;!]
+      await _controller.forward().orCancel;
+      await _controller.reverse().orCancel;
     } on TickerCanceled {
       // The animation got canceled, probably because it was disposed of.
     }
   }
 
   @override
-  [!Widget build(BuildContext context)!] {
+  Widget build(BuildContext context) {
     timeDilation = 10.0; // 1.0 is normal animation speed.
     return Scaffold(
       appBar: AppBar(
